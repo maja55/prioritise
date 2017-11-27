@@ -8,7 +8,7 @@ export default class ApiClient {
   }
 
   constructor(host, options = {}) {
-    this.host = host || 'http://localhost:3000'
+    this.host = 'http://ec2-52-31-99-183.eu-west-1.compute.amazonaws.com:3000'
     this.options = { ...this.defaultOptions, ...options }
   }
 
@@ -49,6 +49,7 @@ export default class ApiClient {
   }
 
   // POST path
+  //create
   //
   // Example:
   //  api.post('/recipes', { title: 'Yummy Soup', ... })
@@ -64,6 +65,7 @@ export default class ApiClient {
   }
 
   // PUT path
+  // create or update
   //
   // Example:
   //  api.put('/recipes/39820384', { title: 'Yummy Soup', ... })

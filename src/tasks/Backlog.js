@@ -10,9 +10,12 @@ export class Backlog extends PureComponent {
     this.props.fetchTasks()
   }
 
-  renderTasks(task, index) {
+  renderTasks(task) {
     return (
-      <Task key={index} {...task} />
+      <Task { ...task }
+      key={ task.id }
+      date={ new Date(task.date) }
+      timedone={ new Date(task.timedone) } />
     )
   }
 

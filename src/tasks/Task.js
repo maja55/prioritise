@@ -6,31 +6,37 @@ import toggleStatus from '../actions/tasks/toggle'
 
 class Task extends PureComponent {
   static propTypes = {
-    _id: PropTypes.string.isRequired,
-    task: PropTypes.string.isRequired,
-    urgency: PropTypes.number.isRequired,
-    importance: PropTypes.number.isRequired,
-    energy: PropTypes.number.isRequired,
-    isDone: PropTypes.bool
+    id: PropTypes.number.isRequired,
+    tasks: PropTypes.string.isRequired,
+    urgent: PropTypes.number,
+    important: PropTypes.number,
+    impact: PropTypes.number,
+    finish: PropTypes.bool.isRequired,
+    date: PropTypes.instanceOf(Date).isRequired,
+    timedone: PropTypes.instanceOf(Date)
   }
 
   toggleStatus = () => {
-    this.props.toggleStatus(this.props._id);
-    this.props.isDone = !this.props.isDone;
+    this.props.toggleStatus(this.props);
   }
 
   render() {
-    const { task, isDone } = this.props
+    const { tasks, important, urgent, impact, finish } = this.props
 
     return(
       <li className="task">
-          <span className="task--label">{ task }</span>
+          <span className="task--label">
+            { tasks }    ----    importance:{important} | urgency:{urgent} | energy:{ impact}  |
+          </span>
           <span className="task--button-group">
-            <StatusButton status={ isDone } onClick={this.toggleStatus} />
+            <StatusButton isDone={ finish } onClick={this.toggleStatus} />
           </span>
       </li>
     )
   }
 }
 
-export default connect(null, { toggleStatus })(Task)
+const mapDispatchToProps = { toggleStatus }
+
+
+export default connect(null, mapDispatchToProps)(Task)
