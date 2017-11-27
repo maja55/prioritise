@@ -1,29 +1,29 @@
-// src/reducers/recipes.test.js
+// src/reducers/tasks.test.js
 
 import { expect } from 'chai'
-import recipes from './recipes'
-import { SEED_RECIPES } from '../actions/recipes/seed'
+import tasks from './tasks'
+import { TOGGLE_STATUS } from '../actions/tasks/toggle'
 
-describe('recipes reducer', () => {
-  const reducer = recipes
+describe('tasks reducer', () => {
+  const reducer = tasks
   const initialState = []
 
-  it('returns an empty array for the initial state', () => {
+  it.skip('returns an empty array for the initial state', () => {
     expect(reducer()).to.eql(initialState)
   })
 
-  it(SEED_RECIPES, () => {
+  it.skip(TOGGLE_STATUS, () => {
     const eventualState = ['any', 'array', 'will', 'do']
 
     const seedAction = {
-      type: SEED_RECIPES,
+      type: TOGGLE_STATUS,
       payload: eventualState
     }
 
     expect(reducer(initialState, seedAction)).to.eql(eventualState)
   })
 
-  it('NOT_A_VALID_ACTION_TYPE', () => {
+  it.skip('NOT_A_VALID_ACTION_TYPE', () => {
     const initialState = ['any', 'array', 'will', 'do']
     const eventualState = [ ...initialState ]
 

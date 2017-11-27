@@ -1,12 +1,12 @@
 import React from 'react'
-import RecipesContainer from './recipes/RecipesContainer'
+import Backlog from './tasks/Backlog'
 import Loading from './components/Loading'
 
 class App extends React.Component {
   render() {
     return (
       <div>
-        <RecipesContainer />
+        <Backlog />
         <Loading />
       </div>
     )

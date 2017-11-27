@@ -4,11 +4,11 @@ import request from 'superagent'
 
 export default class ApiClient {
   defaultOptions = {
-    tokenStorageKey: 'recipeApiJWT'
+    tokenStorageKey: 'prioritiseApi'
   }
 
   constructor(host, options = {}) {
-    this.host = host || 'http://localhost:3030'
+    this.host = host || 'http://localhost:3000'
     this.options = { ...this.defaultOptions, ...options }
   }
 
