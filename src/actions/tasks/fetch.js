@@ -1,22 +1,20 @@
-// src/actions/recipes/fetch
-import ApiClient from '../../api/client'
 import loading from '../loading'
 import loadError from '../loadError'
-export const FETCHED_RECIPES = 'FETCHED_RECIPES'
+export const FETCHED_TASKS = 'FETCHED_TASKS'
 
-const api = new ApiClient()
+const endpoint = "http://ec2-52-31-99-183.eu-west-1.compute.amazonaws.com:3000/tasks"
 
 export default () => {
   return dispatch => {
     dispatch(loading(true))
 
-    api.get('/recipes')
+    fetch(endpoint)
       .then(res => {
         dispatch(loading(false))
-        dispatch({ type: FETCHED_RECIPES, payload: res.body })
+        dispatch({ type: FETCHED_TASKS, payload: res })
+        console.log(res.json())
       })
       .catch(err => {
-        console.error(err)
         dispatch(loading(false))
         dispatch(loadError(err))
       })

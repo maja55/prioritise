@@ -1,8 +1,8 @@
 // src/reducers/index.js
-import recipes from './recipes'
+import tasks from './tasks'
 import loading from './loading'
 
 export default {
-  recipes,
+  tasks,
   loading,
 }
