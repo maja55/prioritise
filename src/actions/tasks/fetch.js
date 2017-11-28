@@ -1,8 +1,7 @@
-// src/actions/recipes/fetch
 import ApiClient from '../../api/client'
 import loading from '../loading'
 import loadError from '../loadError'
-export const FETCHED_TASKS = 'FETCHED_TASKS'
+export const FETCH_TASKS = 'FETCH_TASKS'
 
 const api = new ApiClient()
 
@@ -13,7 +12,7 @@ export default () => {
     api.get('/tasks')
       .then(res => {
         dispatch(loading(false))
-        dispatch({ type: FETCHED_TASKS, payload: res.body })
+        dispatch({ type: FETCH_TASKS, payload: res.body })
       })
       .catch(err => {
         console.error(err)

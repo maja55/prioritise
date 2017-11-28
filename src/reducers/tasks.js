@@ -1,16 +1,18 @@
 import {
   TOGGLE_STATUS,
   CREATE_TASK,
-  FETCHED_TASKS
+  FETCH_TASKS,
+  REMOVE_TASK
 } from '../actions/tasks'
 
 
 export default (currentState = [], { type, payload } = {}) => {
   switch(type) {
-    case  FETCHED_TASKS:
+    case FETCH_TASKS:
       return [ ...payload ]
-    case  CREATE_TASK:
-      return currentState.concat(payload)
+
+    case CREATE_TASK:
+      return [ ...payload ]
 
     case TOGGLE_STATUS :
       let date = Date.now();
@@ -23,6 +25,9 @@ export default (currentState = [], { type, payload } = {}) => {
         }
         return task
       })
+
+    case REMOVE_TASK :
+      return currentState.filter((task) => task.id !== payload)
 
     default :
       return currentState

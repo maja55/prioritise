@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import StatusButton from '../components/StatusButton'
 import toggleStatus from '../actions/tasks/toggle'
+import removeTask from '../actions/tasks/remove'
 
 class Task extends PureComponent {
   static propTypes = {
@@ -16,12 +17,8 @@ class Task extends PureComponent {
     timedone: PropTypes.instanceOf(Date)
   }
 
-  toggleStatus = () => {
-    this.props.toggleStatus(this.props);
-  }
-
   render() {
-    const { tasks, important, urgent, impact, finish } = this.props
+    const { tasks, important, urgent, impact, finish, id } = this.props
 
     return(
       <li className="task">
@@ -29,14 +26,14 @@ class Task extends PureComponent {
             { tasks }    ----    importance:{important} | urgency:{urgent} | energy:{ impact}  |
           </span>
           <span className="task--button-group">
-            <StatusButton isDone={ finish } onClick={this.toggleStatus} />
+            <StatusButton isDone={ finish } onClick={(e) => this.props.toggleStatus(this.props, e)} />
+            <button onClick={(e) => this.props.removeTask(id, e)}>DELETE TASK</button>
           </span>
       </li>
     )
   }
 }
 
-const mapDispatchToProps = { toggleStatus }
-
+const mapDispatchToProps = { toggleStatus, removeTask }
 
 export default connect(null, mapDispatchToProps)(Task)
