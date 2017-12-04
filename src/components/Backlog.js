@@ -1,11 +1,11 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import { fetchTasks } from '../actions/tasks'
 import { connect } from 'react-redux'
-import Title from '../components/Title'
+import Title from './Title'
 import NewTaskForm from './NewTaskForm'
 import Task from './Task'
 
-export class Backlog extends PureComponent {
+export class Backlog extends React.PureComponent {
   componentWillMount() {
     this.props.fetchTasks()
   }
