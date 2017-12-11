@@ -7,9 +7,9 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Backlog />
         <Loading />
         <BacklogChart />
+        <Backlog />
       </div>
     )
   }

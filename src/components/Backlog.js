@@ -1,7 +1,6 @@
 import React from 'react'
 import { fetchTasks } from '../actions/tasks'
 import { connect } from 'react-redux'
-import Title from './Title'
 import NewTaskForm from './NewTaskForm'
 import Task from './Task'
 
@@ -21,10 +20,10 @@ export class Backlog extends React.PureComponent {
 
   render() {
     return(
-      <div className="home">
-        <header>
-          <Title content="Navbar and stuff" />
-        </header>
+      <div className="page">
+        {/* <header>
+          header
+        </header> */}
 
         <main>
           <NewTaskForm />
