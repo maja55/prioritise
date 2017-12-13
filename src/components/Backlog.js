@@ -1,14 +1,9 @@
 import React from 'react'
-import { fetchTasks } from '../actions/tasks'
 import { connect } from 'react-redux'
 import NewTaskForm from './NewTaskForm'
 import Task from './Task'
 
 export class Backlog extends React.PureComponent {
-  componentWillMount() {
-    this.props.fetchTasks()
-  }
-
   renderTasks(task) {
     return (
       <Task { ...task }
@@ -37,6 +32,5 @@ export class Backlog extends React.PureComponent {
 }
 
 const mapStateToProps = ({ tasks }) => ({ tasks })
-const mapDispatchToProps = { fetchTasks }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Backlog)
+export default connect(mapStateToProps, null)(Backlog)
