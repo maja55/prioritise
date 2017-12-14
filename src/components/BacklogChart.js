@@ -11,6 +11,7 @@ export class BacklogChart extends React.Component {
 
     this._chart = null;
     this.backlogTasks = [];
+    this.allSprintsTasks = [];
     this.newSprintTasks = [];
     this.sprintEnergy = 150;
     this.datasets = [];
@@ -20,7 +21,8 @@ export class BacklogChart extends React.Component {
     this.setNewSprintTasks();
     this.getBacklogDataset();
     this.getNewSprintDataset();
-    console.log(this.datasets)
+    this.getAllSprintsDatasets();
+
     const el = ReactDOM.findDOMNode(this.refs.canvas);
 
     this._chart = new Chart(el, {
@@ -30,8 +32,6 @@ export class BacklogChart extends React.Component {
       },
       options: this.getOptions()
     })
-
-    this.getSprintsDatasets();
   }
 
   getOptions = () => {
@@ -53,7 +53,7 @@ export class BacklogChart extends React.Component {
     this.backlogTasks = this.getEstimatedTasks().filter((task) => {
       return !task.sprint && !this.newSprintTasks.includes(task);
     })
-    this.backlogDataset = this.backlogTasks.map((task) => {
+    this.backlogData = this.backlogTasks.map((task) => {
       return ({
         text: task.tasks,
         x: task.important,
@@ -63,7 +63,7 @@ export class BacklogChart extends React.Component {
     })
     this.datasets.push({
       label: "Backlog",
-      data: this.backlogDataset,
+      data: this.backlogData,
       backgroundColor: "rgba(0,128,128,0.4)",
       borderColor: "rgb(0,128,128)",
       hoverBackgroundColor: "rgb(0,128,128)"
@@ -71,7 +71,7 @@ export class BacklogChart extends React.Component {
   }
 
   getNewSprintDataset = () => {
-    this.newSprintDataset = this.newSprintTasks.map((task) => {
+    this.newSprintData = this.newSprintTasks.map((task) => {
       return ({
         text: task.tasks,
         x: task.important,
@@ -81,39 +81,44 @@ export class BacklogChart extends React.Component {
     })
     this.datasets.push({
       label: "Backlog priority - create sprint",
-      data: this.newSprintDataset,
+      data: this.newSprintData,
       backgroundColor: "rgba(0,278,278,0.5)",
       borderColor: "rgb(0,128,128)",
       hoverBackgroundColor: "rgb(0,278,278)"
     });
   }
 
-  getSprintsDatasets = () => {
-    const sprintedTasks = this.getEstimatedTasks().filter((task) => task.sprint);
-    const sprintsObj = sprintedTasks.reduce(function (obj, item) {
-        obj[item.sprint] = obj[item.sprint] || [];
-        obj[item.sprint].push(item);
-        console.log(obj);
-        return obj;
-    }, []);
-
-    console.log(sprintsObj);
-    // this.getSprintDataset = this.newSprintTasks.map((task) => {
-    //   return ({
-    //     text: task.tasks,
-    //     x: task.important,
-    //     y: task.urgent,
-    //     r: 5 + (task.impact / 10 * 2) // TODO change when database is fixed
-    //   })
-    // })
-    // this.datasets.push(this.newSprintDataset);
-    // return ({
-    //   label: "Backlog priority - create sprint",
-    //   data: this.newSprintDataset,
-    //   backgroundColor: "rgba(0,278,278,0.5)",
-    //   borderColor: "rgb(0,128,128)",
-    //   hoverBackgroundColor: "rgb(0,278,278)"
-    // })
+  getAllSprintsDatasets = () => {
+    const sprintedTasks = this.getEstimatedTasks().filter((task) => task.sprint)
+    const sprintGroups = sprintedTasks.reduce(function (obj, item) {
+        obj[item.sprint] = obj[item.sprint] || []
+        obj[item.sprint].push(item)
+        return obj
+    }, [])
+    this.allSprintsTasks = sprintGroups.filter(sprint => sprint.length > 0)
+    this.allSprintsData = this.allSprintsTasks.map((tasks) => {
+      return tasks.map(task => {
+        return ({
+          sprint: task.sprint,
+          text: task.tasks,
+          x: task.important,
+          y: task.urgent,
+          r: 5 + (task.impact / 10 * 2) // TODO change when database is fixed
+        })
+      })
+    })
+    const allSprintsDatasets = this.allSprintsData.map(data => {
+      const getRandomValue = () => Math.floor(Math.random() * (256 - 0) + 0)
+      const color = `${getRandomValue()},${getRandomValue()},${getRandomValue()}`
+      return ({
+        label: `Sprint ${data[0].sprint}`,
+        data: data,
+        backgroundColor: `rgba(${color},0.5)`,
+        borderColor: `rgba(${color})`,
+        hoverBackgroundColor: `rgba(${color})`
+      })
+    })
+    this.datasets.push(...allSprintsDatasets);
   }
 
   getEstimatedTasks = (inclEnergy = true) => {
